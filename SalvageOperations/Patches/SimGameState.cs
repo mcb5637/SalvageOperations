@@ -129,7 +129,8 @@ namespace SalvageOperations.Patches
             var removeResultDescription = new List<ResultDescriptionEntry>();
             foreach (var descriptionEntry in __result)
             {
-                if (descriptionEntry.Text.ToString(false).Contains("[[DM.SimGameStatDescDefs[], ]]"))
+                //Main.HBSLog.Log("descriptionEntry.Text: " + descriptionEntry.Text.ToString(false));
+                if (descriptionEntry.Text.ToString(false).Contains("[[DM.SimGameStatDescDefs[MissingStatDescDef]"))
                     removeResultDescription.Add(descriptionEntry);
             }
 
