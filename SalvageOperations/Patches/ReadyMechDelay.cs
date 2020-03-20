@@ -117,9 +117,14 @@ namespace SalvageOperations.Patches
                 var TempTag = order.Mech.MechTags.First(x => x.StartsWith($"SO-Building-"));
                 order.Mech.MechTags.Remove(TempTag);
 
+                //Main.HBSLog.Log("EquipMechOnSalvage: " + sim.Constants.Salvage.EquipMechOnSalvage);
+                //Main.HBSLog.Log("order.Mech.Description.Id: " + order.Mech.Description.Id + ". Main.EquippedMechs.Keys.Contains(order.Mech.Description.Id): " + Main.EquippedMechs.Keys.Contains(order.Mech.Description.Id));
+                //Main.HBSLog.Log("Main.EquippedMechs[order.Mech.Description.Id]: " + Main.EquippedMechs[order.Mech.Description.Id]);
                 if (sim.Constants.Salvage.EquipMechOnSalvage && Main.EquippedMechs.Keys.Contains(order.Mech.Description.Id) && Main.EquippedMechs[order.Mech.Description.Id] > 0)
                 {
-                    var NewMechDef = sim.DataManager.MechDefs.Get(order.MechID);
+                    //var NewMechDef = sim.DataManager.MechDefs.Get(order.MechID);
+
+                    MechDef NewMechDef = new MechDef(sim.DataManager.MechDefs.Get(order.MechID), null, true);
                     order.Mech.SetInventory(NewMechDef.Inventory);
                     Main.EquippedMechs[order.Mech.Description.Id]--;
                 }
