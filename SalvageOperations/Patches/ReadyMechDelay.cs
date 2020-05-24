@@ -119,8 +119,16 @@ namespace SalvageOperations.Patches
 
                 if (sim.Constants.Salvage.EquipMechOnSalvage && Main.EquippedMechs.Keys.Contains(order.Mech.Description.Id) && Main.EquippedMechs[order.Mech.Description.Id] > 0)
                 {
-                    var NewMechDef = sim.DataManager.MechDefs.Get(order.MechID);
-                    order.Mech.SetInventory(NewMechDef.Inventory);
+                    var NewMechDef = sim.DataManager.MechDefs.Get(order.Mech.Description.Id);
+                    // use the same code to clone inventory as MechDef.CopyFrom
+                    MechComponentRef[] clonedInv = new MechComponentRef[NewMechDef.Inventory.Length];
+                    for (int i = 0; i < NewMechDef.Inventory.Length; i++)
+                    {
+                        clonedInv[i] = new MechComponentRef(NewMechDef.Inventory[i], null);
+                        clonedInv[i].DataManager = order.Mech.DataManager;
+                        clonedInv[i].RefreshComponentDef();
+                    }
+                    order.Mech.SetInventory(clonedInv);
                     Main.EquippedMechs[order.Mech.Description.Id]--;
                 }
             }
